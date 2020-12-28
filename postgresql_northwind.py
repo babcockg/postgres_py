@@ -93,7 +93,10 @@ def formatted_output_line(value, width, extra_padding, is_column_header, col_typ
 		return result
 	except (Exception, Error) as error:
 		print("Error creating formatted output line", error)
-		
+
+# row_limit = 'ALL' or an integer > 0
+row_limit = 'ALL'
+
 try:
 	# Connect to an existing database
 	connection = psycopg2.connect(user="galen",
@@ -118,14 +121,13 @@ try:
 	record = cursor.fetchone()
 	print("You are connected to - ", record, "\n")
 	
-	cursor.execute("""SELECT      ords.order_id
+	print (f"Query results limited to {row_limit} rows.")
+	cursor.execute(f"""SELECT      ords.order_id
 								, ords.customer_id
-								-- , ords.employee_id
 								, concat(emp.last_name, ', ',  emp.first_name) as "employee"
 								, ords.order_date
 								, ords.required_date
 								, ords.shipped_date
-								-- , ords.ship_via
 								, sh.company_name
 								, ords.freight
 								, ords.ship_name
@@ -138,8 +140,7 @@ try:
 							JOIN shippers sh ON sh.shipper_id = ords.ship_via
 							JOIN employees emp ON emp.employee_id = ords.employee_id
 							ORDER BY employee
-							LIMIT 5
-							;""")
+							LIMIT {row_limit}""")
 	rows = cursor.fetchall()
 	
 	column_info = get_column_info(cursor)
