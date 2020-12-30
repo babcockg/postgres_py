@@ -75,7 +75,9 @@ class postgres_cursor_print:
 			self.row_color = row_color
 			
 		self.calc_columns_widths()
-		cprint(f"There are {len(self.rows)} rows to output.", 'red')
+		
+		print(f"\nThere are {len(self.rows)} rows to output.")
+		
 		for idx, col_name in enumerate(self.get_column_names()):
 			fline = f"{{0:{self.col_widths[idx]}}}{' ' * self.column_padding}"
 			cprint(fline.format(self.get_mapped_column_name(col_name)), self.header_color, end = ' ')
@@ -101,7 +103,10 @@ class postgres_cursor_print:
 				cprint ( fline.format(str(col)), self.row_color, end = ' ')
 			print()
 		return
-		
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
 connection = psycopg2.connect(	user="postgres",
 								password="",
 								host="127.0.0.1",
