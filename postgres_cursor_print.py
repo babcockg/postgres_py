@@ -79,7 +79,7 @@ class postgres_cursor_print:
 		print(f"\nThere are {len(self.rows)} rows to output.")
 		
 		for idx, col_name in enumerate(self.get_column_names()):
-			fline = f"{{0:{self.col_widths[idx]}}}{' ' * self.column_padding}"
+			fline = f"{{0:{self.col_widths[idx]}}}{' ' * self.column_padding}|"
 			cprint(fline.format(self.get_mapped_column_name(col_name)), self.header_color, end = ' ')
 		print()
 		
@@ -99,7 +99,7 @@ class postgres_cursor_print:
 				if type(col) == datetime.date:
 					col = col.strftime('%m/%d/%y')
 					
-				fline = f"{{0:{alignment_char}{self.col_widths[cidx]}}}{' ' * self.column_padding}"
+				fline = f"{{0:{alignment_char}{self.col_widths[cidx]}}}{' ' * self.column_padding}|"
 				cprint ( fline.format(str(col)), self.row_color, end = ' ')
 			print()
 		return
