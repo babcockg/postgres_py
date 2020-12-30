@@ -122,6 +122,8 @@ try:
 	print("You are connected to - ", record, "\n")
 	
 	print (f"Query results limited to {row_limit} rows.")
+	
+	# TODO: Determine safety of query parameter substitution
 	cursor.execute(f"""SELECT      ords.order_id
 								, ords.customer_id
 								, concat(emp.last_name, ', ',  emp.first_name) as "employee"
