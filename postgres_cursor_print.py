@@ -116,11 +116,13 @@ connection = psycopg2.connect(	user="postgres",
 cursor = connection.cursor()
 pcp = postgres_cursor_print(cursor)
 pcp.info()
-pcp.exec_query("""SELECT ord.order_id as "id"
-					, concat(ord.customer_id, ', ', cst.company_name) as "customer"
-					, cst.company_name as "customer"
-					, ord.ship_name as "ship to"
+limit_amount = 'all'
+pcp.exec_query(f"""SELECT ord.order_id as "id"
 					, concat(emp.last_name, ', ', emp.first_name) as "employee"
+					, concat(ord.customer_id, ', ', cst.company_name) as "customer"
+					-- , cst.company_name as "customer"
+					, ord.ship_name as "ship to"
+
 					, ord.order_date as "ordered"
 					, ord.required_date as "required"
 					, ord.shipped_date as "shipped"
@@ -137,8 +139,8 @@ pcp.exec_query("""SELECT ord.order_id as "id"
 				  JOIN employees emp ON emp.employee_id = ord.employee_id
 				  JOIN shippers shp ON shp.shipper_id = ord.ship_via
 				  JOIN customers cst ON cst.customer_id = ord.customer_id
-				  ORDER BY ordered
-				  LIMIT 3
+				  ORDER BY employee
+				  LIMIT {limit_amount}
 				  ;""")
 pcp.column_padding = 0
 pcp.output_rows()
