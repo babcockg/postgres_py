@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 import psycopg2
 import datetime
 
@@ -80,7 +81,7 @@ class postgres_cursor_print:
 		
 		for idx, col_name in enumerate(self.get_column_names()):
 			fline = f"{{0:{self.col_widths[idx]}}}{' ' * self.column_padding}|"
-			cprint(fline.format(self.get_mapped_column_name(col_name)), self.header_color, end = ' ')
+			cprint(fline.format(self.get_mapped_column_name(col_name)), 'yellow', 'on_blue', end=' ' )
 		print()
 		
 		for idx,row in enumerate(self.rows):
@@ -116,7 +117,7 @@ connection = psycopg2.connect(	user="postgres",
 cursor = connection.cursor()
 pcp = postgres_cursor_print(cursor)
 pcp.info()
-limit_amount = 'all'
+limit_amount = '5'
 pcp.exec_query(f"""SELECT ord.order_id as "id"
 					, concat(emp.last_name, ', ', emp.first_name) as "employee"
 					, concat(ord.customer_id, ', ', cst.company_name) as "customer"
