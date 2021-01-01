@@ -7,7 +7,7 @@ from datetime import datetime
 
 rows_to_select = -1
 import os
-delete_existing_database = True
+delete_existing_database = False
 
 print('Sqlite3 version {0}'.format(sqlite3.version))
 
