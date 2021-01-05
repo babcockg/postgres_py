@@ -61,7 +61,7 @@ def get_column_info(curs):
 		for colidx in range(0, len(lens)):
 			lens[colidx] = len(get_mapped_column_name(colnames[colidx]))
 			
-			# overwrite column length if the length from a data row is longer
+		# overwrite column length if the length from a data row is longer
 		rows = curs.fetchall()
 		for row in rows:
 			for colidx, value in enumerate(row):
@@ -96,6 +96,7 @@ def formatted_output_line(value, width, extra_padding, is_column_header, col_typ
 
 # row_limit = 'ALL' or an integer > 0
 row_limit = 'ALL'
+connection = None
 
 try:
 	# Connect to an existing database
@@ -114,7 +115,7 @@ try:
 	for key in info.keys():
 		print('{0:>24} : {1:<}'.format(key, info[key]))
 		
-		# Executing a SQL query
+	# Executing a SQL query
 	cursor.execute("SELECT version();")
 	
 	# Fetch result
